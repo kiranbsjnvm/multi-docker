@@ -15,3 +15,12 @@ after_success:
   - docker build -t kiran/multi-nginx ./nginx
   - docker build -t kiran/multi-server ./server
   - docker build -t kiran/multi-worker ./worker
+
+  #Login to docker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  #push images to docker hub
+  - docker push kiran/multi-client
+  - docker push kiran/multi-nginx
+  - docker push kiran/multi-server
+  - docker push kiran/multi-worker
