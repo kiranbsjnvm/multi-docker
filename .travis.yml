@@ -1,8 +1,8 @@
 sudo: required
 language: generic
+
 services:
   - docker
-
 
 before_install:
   - docker build -t kiran/react-test -f ./client/Dockerfile.dev ./client
@@ -15,11 +15,9 @@ after_success:
   - docker build -t kiran/multi-nginx ./nginx
   - docker build -t kiran/multi-server ./server
   - docker build -t kiran/multi-worker ./worker
-
-  #Login to docker
+  # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-
-  #push images to docker hub
+  # Take those images and push them to docker hub
   - docker push kiran/multi-client
   - docker push kiran/multi-nginx
   - docker push kiran/multi-server
