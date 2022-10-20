@@ -1,23 +1,22 @@
-const keys = require('./keys');
+const keys = require("./keys");
 
-//Express App Setup
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+// Express App Setup
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-
-//Postgres Client setup
-const {Pool} = require('pg')
+// Postgres Client Setup
+const { Pool } = require("pg");
 const pgClient = new Pool({
-    user: keys.pgUser,
-    password: keys.pgPassword,
-    host: keys.pgHost,
-    port: keys.pgPort,
-    database: keys.pgDatabase
+  user: keys.pgUser,
+  host: keys.pgHost,
+  database: keys.pgDatabase,
+  password: keys.pgPassword,
+  port: keys.pgPort,
 });
 
 pgClient.on("connect", (client) => {
@@ -26,19 +25,17 @@ pgClient.on("connect", (client) => {
     .catch((err) => console.error(err));
 });
 
-
-//RedisClient setup
-const redis = require('redis')
+// Redis Client Setup
+const redis = require("redis");
 const redisClient = redis.createClient({
-    host: keys.redisHost,
-    port: keys.redisPort,
-    retry_strategy: () => 1000
+  host: keys.redisHost,
+  port: keys.redisPort,
+  retry_strategy: () => 1000,
 });
-
 const redisPublisher = redisClient.duplicate();
 
-
 // Express route handlers
+
 app.get("/", (req, res) => {
   res.send("Hi");
 });
